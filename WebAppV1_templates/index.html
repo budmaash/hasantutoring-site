@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% block title %}Select Test · SAT Math Score Tool{% endblock %}
+{% block content %}
+  <style>
+    .begin-scoring-panel {
+      background: #ececec;
+      border: 1px solid #d2cec7;
+      border-radius: 22px;
+      padding: 42px 44px;
+      width: 40%;
+      margin: 210px auto 44px;
+    }
+
+    .begin-scoring-panel h2 {
+      margin: 0 0 16px;
+      font-size: clamp(2rem, 3vw, 2.75rem);
+      letter-spacing: 0.01em;
+      line-height: 1.05;
+      font-family: "adobe-garamond-pro", Georgia, serif;
+      font-weight: 700;
+    }
+
+    .begin-scoring-panel .lead {
+      margin: 0 0 28px;
+      max-width: 930px;
+      font-size: 1.02rem;
+      line-height: 1.55;
+      font-family: "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+      font-weight: 400;
+    }
+
+    .scoring-form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px 20px;
+      align-items: end;
+    }
+
+    .scoring-form-grid .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: none;
+      font-family: "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .scoring-form-grid input,
+    .scoring-form-grid select {
+      width: 100%;
+      height: 48px;
+      border: 1px solid #d0cbc3;
+      border-radius: 14px;
+      background: #f2f0ec;
+      padding: 0 14px;
+      font-size: 1.02rem;
+      color: #1f1f1f;
+      font-family: "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .scoring-form-grid .email-field {
+      grid-column: 1 / 2;
+      margin-top: 8px;
+    }
+
+    .scoring-form-grid .action-field {
+      grid-column: 2 / 3;
+      margin-top: 8px;
+      display: flex;
+      align-items: end;
+      justify-content: flex-start;
+    }
+
+    .scoring-form-grid .action-field .sqs-block-button-element {
+      min-width: 214px;
+      min-height: 21px;
+      border-radius: 999px;
+      font-size: 1.02rem;
+      letter-spacing: 0.18em;
+      font-family: "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+      font-weight: 700;
+      background: #000;
+      border-color: #000;
+      color: #fff;
+    }
+
+    @media (max-width: 980px) {
+      .begin-scoring-panel {
+        width: 92%;
+        padding: 30px 22px;
+        margin-top: 130px;
+      }
+
+      .scoring-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .scoring-form-grid .email-field,
+      .scoring-form-grid .action-field {
+        grid-column: auto;
+        margin-top: 0;
+      }
+
+      .scoring-form-grid .action-field .sqs-block-button-element {
+        width: 100%;
+        min-width: 0;
+      }
+    }
+  </style>
+
+  <section class="begin-scoring-panel">
+    <h2>Begin scoring</h2>
+    <p class="lead">
+      Choose the test you would like to score and enter the student's name and email. You'll enter the
+      question responses on the next screen.
+    </p>
+    {% if tests %}
+      <form method="post" action="{{ url_for('index') }}" class="scoring-form-grid">
+        <div class="field">
+          <label for="test_id">Choose test</label>
+          <select name="test_id" id="test_id">
+            {% for test in tests %}
+              <option value="{{ test.identifier }}" {% if test.identifier == selected_test_id %}selected{% endif %}>
+                {{ test.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="field">
+          <label for="first_name">First name</label>
+          <input type="text" name="first_name" id="first_name" placeholder="e.g. Jordan" value="{{ first_name }}" required />
+        </div>
+        <div class="field">
+          <label for="last_name">Last name</label>
+          <input type="text" name="last_name" id="last_name" placeholder="e.g. Lee" value="{{ last_name }}" required />
+        </div>
+        <div class="field email-field">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" placeholder="e.g. jordan.lee@example.com" value="{{ email }}" required />
+        </div>
+        <div class="action-field">
+          <div class="sqs-block" data-definition-name="website.components.button">
+            <div class="sqs-block-content">
+              <div class="sqs-block-button-container sqs-block-button-container--left">
+                <div class="sqs-stretched">
+                  <button type="submit" class="sqs-block-button-element">Start entering answers</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    {% else %}
+      <p class="empty-state">No test files were found. Add one or more CSV files to the <code>data/</code> folder to begin scoring responses.</p>
+    {% endif %}
+  </section>
+{% endblock %}

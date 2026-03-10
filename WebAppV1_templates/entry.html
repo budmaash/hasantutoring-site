@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% block title %}Enter Answers · SAT Math Score Tool{% endblock %}
+{% block content %}
+  <style>
+    .entry-panel-wrap {
+      width: min(1050px, 95vw);
+      margin: clamp(120px, 14vh, 180px) auto 48px;
+    }
+
+    .entry-panel-wrap .entry-panel {
+      background: #fff;
+      border: 1px solid #e2ddd3;
+      border-radius: 16px;
+      box-shadow: 0 18px 45px rgba(17, 17, 17, 0.08);
+      padding: clamp(20px, 3vw, 36px);
+    }
+
+    .entry-panel-wrap .entry-panel p {
+      max-width: 70ch;
+    }
+
+    .entry-panel .entry-grid-panel {
+      width: min(741px, 100%);
+      margin: 0 auto 1.5rem;
+      background: #fbfaf7;
+      border: 1px solid #e2ddd3;
+      border-radius: 12px;
+      padding: 1rem;
+    }
+
+    .entry-panel .entry-grid-panel .answer-table {
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 0 auto;
+      width: 70%;
+      table-layout: fixed;
+    }
+
+    .entry-panel .entry-grid-panel .answer-table thead th:first-child,
+    .entry-panel .entry-grid-panel .answer-table tbody th[scope='row'] {
+      width: 14%;
+    }
+
+    .entry-panel .entry-grid-panel .answer-table th,
+    .entry-panel .entry-grid-panel .answer-table td {
+      padding: 8px 11px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .entry-panel .entry-grid-panel .answer-table tbody tr + tr th,
+    .entry-panel .entry-grid-panel .answer-table tbody tr + tr td {
+      border-top: 1px solid #dddddd;
+    }
+
+    .entry-panel .entry-grid-panel .answer-table tr > :first-child {
+      padding-right: 6px;
+    }
+
+    .entry-panel .entry-grid-panel .answer-table tr > :nth-child(2) {
+      padding-left: 5px;
+    }
+
+    .entry-panel .entry-grid-panel .answer-table thead tr {
+      background: #e7e1d6;
+    }
+
+    .entry-panel .entry-grid-panel .answer-table thead th:first-child {
+      text-align: left;
+      padding-left: 0.5rem;
+    }
+
+    .entry-panel .entry-grid-panel .answer-table thead th:first-child {
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
+
+    .entry-panel .entry-grid-panel .answer-table thead th:last-child {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+
+    .entry-panel .entry-grid-panel .answer-table tbody th[scope='row'] {
+      text-align: left;
+      padding-left: 0.5rem;
+    }
+
+    .entry-panel .entry-grid-panel .answer-table td.free-response-cell {
+      text-align: left;
+      padding-left: 5px;
+    }
+
+    .entry-panel .entry-grid-panel .answer-table .free-response-input {
+      display: block;
+      margin: 0;
+    }
+
+    .entry-panel .entry-grid-panel .form-actions {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 14px;
+      padding-left: 0.5rem;
+    }
+
+    .entry-panel .entry-grid-panel .generate-report-btn {
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.72em 1.55em;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .entry-panel .form-footer-note {
+      width: min(741px, 100%);
+      margin: 0 auto;
+      text-align: left;
+      padding-left: 0.5rem;
+    }
+
+    .entry-panel .form-footer-note a {
+      color: #cf6f6f;
+      font-weight: 700;
+    }
+  </style>
+
+  <div class="entry-panel-wrap">
+    <section class="card entry-panel">
+      <h2>Enter student responses</h2>
+      <p>
+        Scoring {{ student_name or 'Student' }} for {{ test.name }}. Select the answer for each question
+        below. Multiple-choice questions use options A–D, while grid-in questions accept a numeric
+        response. Leave a question unanswered to mark it as omitted.
+      </p>
+      <form method="post" action="{{ url_for('results') }}" class="answer-form">
+        <input type="hidden" name="test_id" value="{{ test.identifier }}" />
+        <input type="hidden" name="first_name" value="{{ first_name }}" />
+        <input type="hidden" name="last_name" value="{{ last_name }}" />
+        <input type="hidden" name="email" value="{{ email }}" />
+        <div class="entry-grid-panel">
+          <div class="table-wrapper">
+            <table class="answer-table">
+              <thead>
+                <tr>
+                  <th scope="col">Question</th>
+                  {% for choice in multiple_choice_choices %}
+                    <th scope="col" class="choice-heading">{{ choice }}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for question in questions %}
+                  <tr>
+                    <th scope="row">{{ question.number }}</th>
+                    {% if question.expects_numeric_response %}
+                      <td class="free-response-cell" colspan="{{ multiple_choice_choices|length }}">
+                        <input
+                          type="text"
+                          name="q_{{ question.number }}"
+                          id="q_{{ question.number }}"
+                          inputmode="decimal"
+                          autocomplete="off"
+                          class="free-response-input"
+                          placeholder="Enter answer"
+                        />
+                      </td>
+                    {% else %}
+                      {% for choice in multiple_choice_choices %}
+                        <td class="choice-cell">
+                          <label class="choice-label" for="q_{{ question.number }}_{{ choice }}">
+                            <input
+                              type="radio"
+                              name="q_{{ question.number }}"
+                              id="q_{{ question.number }}_{{ choice }}"
+                              value="{{ choice }}"
+                            />
+                          </label>
+                        </td>
+                      {% endfor %}
+                    {% endif %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="form-actions">
+            <div class="sqs-block" data-definition-name="website.components.button">
+              <div class="sqs-block-content">
+                <div class="sqs-block-button-container sqs-block-button-container--left">
+                  <div class="sqs-stretched">
+                    <button type="submit" class="btn btn--border theme-btn--primary-inverse sqs-button-element--tertiary generate-report-btn">
+                      Generate score report
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <p class="form-footer-note">
+        <a href="{{ url_for('index', test_id=test.identifier, first_name=first_name, last_name=last_name, email=email) }}">Choose a different test or student</a>
+      </p>
+    </section>
+  </div>
+{% endblock %}

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}SAT Math Score Tool{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homepage_files/user-account-core-deec763d109d5251-min.en-US.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homepage_files/website.components.button.styles.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homepage_files/website.components.html.styles.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homepage_files/site.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homepage_files/static.css') }}" />
+  </head>
+  <body class="header-width-full tweak-transparent-header tweak-fixed-header-style-basic primary-button-style-solid primary-button-shape-pill secondary-button-style-solid tertiary-button-style-solid sqs-seven-one seven-one-global-animations">
+    <div id="siteWrapper" class="clearfix site-wrapper">
+      <div id="floatingCart" class="floating-cart hidden">
+        <a href="https://www.hasantutoring.com/cart" class="icon icon--stroke icon--fill icon--cart sqs-custom-cart">
+          <span class="Cart-inner">
+            <svg class="icon icon--cart" width="61" height="49" viewBox="0 0 61 49">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M0.5 2C0.5 1.17157 1.17157 0.5 2 0.5H13.6362C14.3878 0.5 15.0234 1.05632 15.123 1.80135L16.431 11.5916H59C59.5122 11.5916 59.989 11.8529 60.2645 12.2847C60.54 12.7165 60.5762 13.2591 60.3604 13.7236L50.182 35.632C49.9361 36.1614 49.4054 36.5 48.8217 36.5H18.0453C17.2937 36.5 16.6581 35.9437 16.5585 35.1987L12.3233 3.5H2C1.17157 3.5 0.5 2.82843 0.5 2ZM16.8319 14.5916L19.3582 33.5H47.8646L56.6491 14.5916H16.8319Z"></path>
+              <path d="M18.589 35H49.7083L60 13H16L18.589 35Z"></path>
+              <path d="M21 49C23.2091 49 25 47.2091 25 45C25 42.7909 23.2091 41 21 41C18.7909 41 17 42.7909 17 45C17 47.2091 18.7909 49 21 49Z"></path>
+              <path d="M45 49C47.2091 49 49 47.2091 49 45C49 42.7909 47.2091 41 45 41C42.7909 41 41 42.7909 41 45C41 47.2091 42.7909 49 45 49Z"></path>
+            </svg>
+            <div class="legacy-cart icon-cart-quantity">
+              <span class="sqs-cart-quantity">0</span>
+            </div>
+          </span>
+        </a>
+      </div>
+
+      <header data-test="header" id="header" class="header theme-col--primary white" data-section-theme="white">
+        <div class="header-announcement-bar-wrapper">
+          <a href="#page" class="header-skip-link sqs-button-element--primary">Skip to Content</a>
+          <div class="header-inner container--fluid header-mobile-layout-logo-left-nav-right header-layout-nav-right" data-test="header-inner">
+            <div class="header-background theme-bg--primary"></div>
+            <div class="header-display-desktop" data-content-field="site-title">
+              <div class="header-title-nav-wrapper">
+                <div class="header-title" data-animation-role="header-element">
+                  <div class="header-title-logo">
+                    <a href="https://www.hasantutoring.com/" data-animation-role="header-element">
+                      <img
+                        src="{{ url_for('static', filename='Homepage_files/HASAN+TUTORING-logo.png') }}"
+                        alt="Expert Tutoring for the ACT and SAT"
+                        style="display:block"
+                        loading="eager"
+                      />
+                    </a>
+                  </div>
+                </div>
+                <div class="header-nav">
+                  <div class="header-nav-wrapper">
+                    <nav class="header-nav-list">
+                      <div class="header-nav-item header-nav-item--collection header-nav-item--active header-nav-item--homepage">
+                        <a href="https://www.hasantutoring.com/" aria-current="page">Start Here</a>
+                      </div>
+                      <div class="header-nav-item header-nav-item--collection"><a href="https://www.hasantutoring.com/tests">Test Info</a></div>
+                      <div class="header-nav-item header-nav-item--collection"><a href="https://www.hasantutoring.com/act-vs-sat">ACT vs. SAT</a></div>
+                      <div class="header-nav-item header-nav-item--collection"><a href="https://www.hasantutoring.com/test-prep-options">Why Tutoring?</a></div>
+                      <div class="header-nav-item header-nav-item--collection"><a href="https://www.hasantutoring.com/about-me">About Me</a></div>
+                      <div class="header-nav-item header-nav-item--collection"><a href="https://www.hasantutoring.com/faqs">FAQs</a></div>
+                      <div class="header-nav-item header-nav-item--collection"><a href="https://www.hasantutoring.com/blog">Blog</a></div>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+              <div class="header-actions header-actions--right">
+                <div class="user-accounts-link header-nav-item header-nav-item--collection customerAccountLoginDesktop loaded">
+                  <a class="user-accounts-text-link header-nav-item" href="https://www.hasantutoring.com/#"><span class="unauth">Login</span></a>
+                </div>
+                <div class="header-actions-action header-actions-action--cta">
+                  <a class="btn btn--border theme-btn--primary-inverse sqs-button-element--tertiary" href="https://www.hasantutoring.com/member-home">Member Home</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="header-display-mobile" data-content-field="site-title">
+              <div class="header-title-nav-wrapper">
+                <div class="header-title">
+                  <div class="header-title-logo">
+                    <a href="https://www.hasantutoring.com/">
+                      <img
+                        src="{{ url_for('static', filename='Homepage_files/HASAN+TUTORING-logo.png') }}"
+                        alt="Expert Tutoring for the ACT and SAT"
+                        style="display:block"
+                        loading="eager"
+                      />
+                    </a>
+                  </div>
+                </div>
+                <div class="header-burger menu-overlay-has-visible-non-navigation-items">
+                  <button class="header-burger-btn burger" data-test="header-burger" type="button" aria-label="Toggle Menu">
+                    <span class="js-header-burger-open-title visually-hidden">Open Menu</span>
+                    <span hidden class="js-header-burger-close-title visually-hidden">Close Menu</span>
+                    <div class="burger-box">
+                      <div class="burger-inner header-menu-icon-doubleLineHamburger">
+                        <div class="top-bun"></div>
+                        <div class="patty"></div>
+                        <div class="bottom-bun"></div>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="header-menu header-menu--folder-list" id="mobileMenu" hidden>
+          <div class="header-menu-bg theme-bg--primary"></div>
+          <div class="header-menu-nav">
+            <nav class="header-menu-nav-list">
+              <div data-folder="root" class="header-menu-nav-folder header-menu-nav-folder--active">
+                <div class="header-menu-nav-folder-content">
+                  <div class="header-menu-nav-wrapper">
+                    <div class="container header-menu-nav-item header-menu-nav-item--collection header-menu-nav-item--active header-menu-nav-item--homepage"><a href="https://www.hasantutoring.com/"><div class="header-menu-nav-item-content">Start Here</div></a></div>
+                    <div class="container header-menu-nav-item header-menu-nav-item--collection"><a href="https://www.hasantutoring.com/tests"><div class="header-menu-nav-item-content">Test Info</div></a></div>
+                    <div class="container header-menu-nav-item header-menu-nav-item--collection"><a href="https://www.hasantutoring.com/act-vs-sat"><div class="header-menu-nav-item-content">ACT vs. SAT</div></a></div>
+                    <div class="container header-menu-nav-item header-menu-nav-item--collection"><a href="https://www.hasantutoring.com/test-prep-options"><div class="header-menu-nav-item-content">Why Tutoring?</div></a></div>
+                    <div class="container header-menu-nav-item header-menu-nav-item--collection"><a href="https://www.hasantutoring.com/about-me"><div class="header-menu-nav-item-content">About Me</div></a></div>
+                    <div class="container header-menu-nav-item header-menu-nav-item--collection"><a href="https://www.hasantutoring.com/faqs"><div class="header-menu-nav-item-content">FAQs</div></a></div>
+                    <div class="container header-menu-nav-item header-menu-nav-item--collection"><a href="https://www.hasantutoring.com/blog"><div class="header-menu-nav-item-content">Blog</div></a></div>
+                  </div>
+                  <div class="user-accounts-link header-menu-nav-item header-nav-item--collection customerAccountLoginMobile loaded">
+                    <a class="user-accounts-text-link header-nav-item" href="https://www.hasantutoring.com/#"><span class="unauth">Login</span></a>
+                  </div>
+                </div>
+                <div class="header-menu-cta">
+                  <a class="theme-btn--primary btn sqs-button-element--tertiary" href="https://www.hasantutoring.com/member-home">Member Home</a>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      <main id="page" class="container" role="main">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flash-messages">
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+      </main>
+
+      <footer class="sections" id="footer-sections" data-footer-sections>
+        <section data-test="page-section" data-section-theme="light" class="page-section layout-engine-section background-width--full-bleed section-height--custom content-width--wide horizontal-alignment--center vertical-alignment--middle light" style="min-height: 10vh;">
+          <div class="section-border"><div class="section-background"></div></div>
+          <div class="content-wrapper" style="padding-top: calc(10vmax / 10); padding-bottom: calc(10vmax / 10);">
+            <div class="content">
+              <div class="sqs-layout sqs-grid-12 columns-12 empty" data-type="page-section"></div>
+            </div>
+          </div>
+        </section>
+        <section data-test="page-section" data-section-theme="dark" class="page-section layout-engine-section background-width--full-bleed section-height--small content-width--wide horizontal-alignment--center vertical-alignment--middle dark">
+          <div class="section-border"><div class="section-background"></div></div>
+          <div class="content-wrapper">
+            <div class="content">
+              <div class="sqs-layout sqs-grid-12 columns-12" data-type="page-section">
+                <div class="row sqs-row">
+                  <div class="col sqs-col-4 span-4">
+                    <div class="sqs-block markdown-block sqs-block-markdown" data-block-type="44">
+                      <div class="sqs-block-content">
+                        <h2><strong>Helpful Links</strong></h2>
+                        <p><a href="http://www.actstudent.org/regist/dates.html" target="_blank" rel="noopener noreferrer">ACT Testing Dates</a></p>
+                        <p><a href="https://services.actstudent.org/OA_HTML/actibeCAcdLogin.jsp" target="_blank" rel="noopener noreferrer">Sign Up for the ACT</a></p>
+                        <p><a href="http://sat.collegeboard.org/register/sat-us-dates" target="_blank" rel="noopener noreferrer">SAT Testing Dates</a></p>
+                        <p><a href="http://sat.collegeboard.org/login?applicationId=115&amp;destinationpage=https://nsat.collegeboard.org/satweb/login.jsp&amp;view=NSAT" target="_blank" rel="noopener noreferrer">Sign Up for the SAT</a></p>
+                        <p><a href="https://majid-hasan.squarespace.com/test-prep-options#Pricing" target="_blank" rel="noopener noreferrer">How Much for Tutoring?</a></p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col sqs-col-4 span-4">
+                    <div class="sqs-block markdown-block sqs-block-markdown" data-block-type="44">
+                      <div class="sqs-block-content">
+                        <h2><strong>Contact Me</strong></h2>
+                        <p><a href="mailto:majid@hasantutoring.com">Majid@HasanTutoring.com</a><br />913.210.0611<br /><a href="https://www.hasantutoring.com/contact-pages" target="_blank" rel="noopener noreferrer">Or Send Me a Message</a></p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col sqs-col-4 span-4">
+                    <div class="sqs-block markdown-block sqs-block-markdown" data-block-type="44">
+                      <div class="sqs-block-content">
+                        <h2><strong>My Philosophy</strong></h2>
+                        <p><strong>Recogize these are exams are extremely repetitive and therefore LEARNABLE.</strong> There are only so many different types of questions, and I teach students to learn to recognize them and the simple steps to answer each one. I meet one-on-one with each student, track their progress, and focus on their needs at their pace.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </footer>
+    </div>
+
+    <script>
+      const burger = document.querySelector(".header-burger-btn");
+      const menu = document.getElementById("mobileMenu");
+      if (burger && menu) {
+        burger.addEventListener("click", () => {
+          menu.hidden = !menu.hidden;
+        });
+      }
+    </script>
+    <script defer src="{{ url_for('static', filename='Homepage_files/site-bundle.ffb22c3e841b638295ea13d0eb1a9f48.js') }}"></script>
+  </body>
+</html>

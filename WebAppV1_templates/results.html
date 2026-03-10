@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% block title %}Score Report · SAT Math Score Tool{% endblock %}
+{% block content %}
+  <style>
+    .results-stack {
+      margin-top: clamp(120px, 14vh, 180px);
+    }
+
+    .results-stack > .card + .card {
+      margin-top: 2rem;
+    }
+
+    .question-review-card .table-wrapper,
+    .summary-card .summary-inner,
+    .breakdown-card .table-wrapper {
+      width: min(741px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+      background: #fbfaf7;
+      border: 1px solid #e2ddd3;
+      border-radius: 12px;
+    }
+
+    .question-review-card .question-table,
+    .breakdown-card .breakdown-table {
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 0 auto;
+      width: 70%;
+      table-layout: fixed;
+    }
+
+    .question-review-card .question-table {
+      width: 100%;
+    }
+
+    .breakdown-card .breakdown-table {
+      width: 100%;
+    }
+
+    .question-review-card .question-table th,
+    .question-review-card .question-table td,
+    .breakdown-card .breakdown-table th,
+    .breakdown-card .breakdown-table td {
+      padding: 8px 11px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .question-review-card .question-table th,
+    .question-review-card .question-table td {
+      padding: 8px 8px;
+    }
+
+    .breakdown-card .breakdown-table th,
+    .breakdown-card .breakdown-table td {
+      padding: 8px 8px;
+    }
+
+    .question-review-card .question-table thead tr,
+    .breakdown-card .breakdown-table thead tr {
+      background: #e7e1d6;
+    }
+
+    .question-review-card .question-table thead th:first-child,
+    .breakdown-card .breakdown-table thead th:first-child {
+      text-align: left;
+      padding-left: 0.5rem;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
+
+    .question-review-card .question-table thead th:first-child,
+    .question-review-card .question-table tbody td:first-child {
+      width: 4%;
+      white-space: nowrap;
+    }
+
+    .question-review-card .question-table thead th:nth-child(2),
+    .question-review-card .question-table tbody td:nth-child(2),
+    .question-review-card .question-table thead th:nth-child(3),
+    .question-review-card .question-table tbody td:nth-child(3) {
+      width: 16%;
+    }
+
+    .question-review-card .question-table thead th:last-child,
+    .breakdown-card .breakdown-table thead th:last-child {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+
+    .question-review-card .question-table tbody td:first-child {
+      text-align: left;
+      padding-left: 0.5rem;
+    }
+
+    .question-review-card .question-table tbody tr + tr th,
+    .question-review-card .question-table tbody tr + tr td {
+      border-top: 1px solid #dddddd;
+    }
+
+    .breakdown-card .breakdown-table tbody tr + tr th,
+    .breakdown-card .breakdown-table tbody tr + tr td {
+      border-top: 1px solid #dddddd;
+    }
+
+    .question-review-card .question-review-title {
+      font-weight: 700;
+      font-size: 1.35rem;
+      margin: 0 0 0.75rem;
+    }
+
+    .breakdown-card .breakdown-title {
+      font-weight: 700;
+      font-size: 1.35rem;
+      margin: 0 0 0.75rem;
+    }
+
+  </style>
+
+  <div class="results-stack">
+    <section class="card summary-card">
+      <div class="summary-inner">
+        <h2>Score report for {{ student_name }}</h2>
+        <p class="test-meta"><strong>Test:</strong> {{ test_name }}</p>
+        <div class="score-summary">
+          <p><strong>Total correct:</strong> {{ report.correct_count }} / {{ report.total_questions }}</p>
+          <p><strong>Accuracy:</strong> {{ '%.1f'|format(report.accuracy_pct) }}%</p>
+        </div>
+        <div class="form-actions">
+          <div class="sqs-block" data-definition-name="website.components.button">
+            <div class="sqs-block-content">
+              <div class="sqs-block-button-container sqs-block-button-container--left">
+                <div class="sqs-stretched">
+                  <a
+                    href="{{ url_for('index', test_id=test_id, first_name=first_name, last_name=last_name, email=email) }}"
+                    class="btn btn--border theme-btn--primary-inverse sqs-button-element--tertiary"
+                  >
+                    Score Another Test
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card question-review-card">
+      <div class="table-wrapper">
+        <h3 class="question-review-title">Question review</h3>
+        <table class="question-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Your answer</th>
+              <th>Correct answer</th>
+              <th>Question-Type</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in report.per_question %}
+              <tr class="{{ 'correct' if row.is_correct else 'incorrect' }}">
+                <td>
+                  {% if question_link_prefix %}
+                    <a
+                      href="{{ question_link_prefix }}{{ row.number }}"
+                      class="question-number-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {{ row.number }}
+                    </a>
+                  {% else %}
+                    {{ row.number }}
+                  {% endif %}
+                </td>
+                <td>{{ row.student_answer }}</td>
+                <td>{{ row.correct_answer }}</td>
+                <td>{{ row.category }}</td>
+                <td>
+                  {% if row.is_correct %}
+                    ✅ Correct
+                  {% elif not row.raw_student_answer %}
+                    ◻️ Omitted
+                  {% else %}
+                    ❌ Incorrect
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card breakdown-card">
+      <div class="table-wrapper">
+        <h3 class="breakdown-title">Question-Type breakdown</h3>
+        <table class="breakdown-table">
+          <thead>
+            <tr>
+              <th>Question-Type</th>
+              <th>Correct</th>
+              <th>Total</th>
+              <th>Accuracy</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for category in report.category_breakdown %}
+              <tr>
+                <td>{{ category.category }}</td>
+                <td>{{ category.correct }}</td>
+                <td>{{ category.total }}</td>
+                <td>{{ '%.1f'|format(category.accuracy_pct) }}%</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+{% endblock %}
